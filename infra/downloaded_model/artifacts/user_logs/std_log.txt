@@ -1,0 +1,15 @@
+/bin/bash: /azureml-envs/sklearn-1.0/lib/libtinfo.so.6: no version information available (required by /bin/bash)
+
+
+
+************************************************************
+Reading data...
+Splitting data...
+Training model...
+Accuracy: 0.774
+AUC: 0.8484437036668493
+Saved metrics to /mnt/azureml/cr/j/e831ae764b144d7a9468336ee14d39a6/cap/data-capability/wd/metrics_output/metrics.json
+************************************************************
+
+
+
