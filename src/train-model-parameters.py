@@ -110,7 +110,7 @@ def save_metrics(metrics, output_dir):
         json.dump(metrics, metrics_file)
 
     print(f"Saved metrics to {metrics_path}")
-
+###
 def parse_args():
     # setup arg parser
     parser = argparse.ArgumentParser()
