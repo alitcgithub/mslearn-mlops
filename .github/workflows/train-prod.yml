@@ -1,4 +1,4 @@
-name: Train model in prod (PR)
+name: Train model in prod
 
 on:
   workflow_dispatch:
@@ -13,17 +13,12 @@ permissions:
 
 jobs:
   train-prod:
-    if: >-
-      github.event.issue.pull_request != null &&
-      contains(github.event.comment.body, '/train-prod')
     runs-on: ubuntu-latest
     environment: prod
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
 
       - name: Sign in to Azure
         uses: azure/login@v2
@@ -125,6 +120,7 @@ jobs:
           echo "prod_auc=$AUC" >> "$GITHUB_OUTPUT"
 
       - name: Comment prod metrics on pull request
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
@@ -133,7 +129,7 @@ jobs:
             const jobName = '${{ steps.train.outputs.job_name }}';
             const studioUrl = '${{ steps.download.outputs.studio_url }}';
 
-            const prNumber = context.issue.number;
+            const prNumber = context.payload.pull_request.number;
 
             let body = '✅ Prod training workflow completed.';
             body += '\n\n**Azure ML job**';
