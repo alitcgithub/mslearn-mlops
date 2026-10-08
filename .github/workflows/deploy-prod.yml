@@ -1,13 +1,7 @@
 name: Deploy model to online endpoint (PR comment)
 
 on:
-  issue_comment:
-    types: [created]
-
-permissions:
-  contents: read
-  issues: write
-  pull-requests: write
+  workflow_dispatch:
 
 jobs:
   deploy-prod:
