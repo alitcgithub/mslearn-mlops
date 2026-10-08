@@ -95,6 +95,8 @@ def set_traffic_to_deployment(ml_client: MLClient, endpoint_name: str, deploymen
 def main() -> None:
     args = parse_args()
 
+    print(f"Target Endpoint: {args.endpoint_name} | Target Deployment: {args.deployment_name}")
+
     print("Connecting to Azure Machine Learning workspace...")
     ml_client = get_ml_client(
         subscription_id=args.subscription_id,

@@ -71,6 +71,7 @@ jobs:
       - name: Deploy model to managed online endpoint
         id: deploy
         run: |
+          echo "S T A R T I N G   D E P L O Y M E N T   T O   T A R G E T   G R E E N"
           python src/deploy_to_online_endpoint.py \
             --subscription-id "${{ steps.detect.outputs.subscription_id }}" \
             --resource-group "${{ steps.detect.outputs.resource_group }}" \
@@ -89,7 +90,7 @@ jobs:
               'The diabetes model has been deployed (or updated) on the managed online endpoint.',
               '',
               'Endpoint name: `${{ steps.detect.outputs.endpoint_name }}`',
-              'Deployment name: `blue`',
+              'Deployment name: `green`',
               'Data collection for model inputs and outputs is enabled on this deployment.',
               '',
               'Check the workflow run logs for the endpoint scoring URI and verify the endpoint in Azure Machine Learning studio.',
