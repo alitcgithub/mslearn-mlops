@@ -26,11 +26,17 @@ def main(args):
     # evaluate model
     metrics = eval_model(model, X_test, y_test)
 
-    # --- SAVE AND LOG MODEL ARTIFACTS ---
-    # 1. Log model directly to MLflow (enables "Register Model" in Azure ML UI)
+    # --- SAVE, LOG, AND REGISTER MODEL ARTIFACTS ---
+    # 1. Log model directly to MLflow
     mlflow.sklearn.log_model(model, "model")
 
-    # 2. Save physical model.pkl to the 'outputs' directory (appears in Outputs + logs)
+    # 2. Automatically register the model in the workspace/registry
+    run_id = mlflow.active_run().info.run_id
+    model_uri = f"runs:/{run_id}/model"
+    mlflow.register_model(model_uri, "diabetes-model")
+    print("Registered model as 'diabetes-model'")
+
+    # 3. Save physical model.pkl to the 'outputs' directory
     os.makedirs('outputs', exist_ok=True)
     joblib.dump(model, 'outputs/model.pkl')
     print("Saved model to outputs/model.pkl")
