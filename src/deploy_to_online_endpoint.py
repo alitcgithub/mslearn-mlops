@@ -30,7 +30,7 @@ def parse_args():
     parser.add_argument("--resource-group", dest="resource_group", required=True)
     parser.add_argument("--workspace", dest="workspace", required=True)
     parser.add_argument("--endpoint-name", dest="endpoint_name", default="diabetes-endpoint")
-    parser.add_argument("--deployment-name", dest="deployment_name", default="blue")
+    parser.add_argument("--deployment-name", dest="deployment_name", default="green")
 
     return parser.parse_args()
 
@@ -94,6 +94,8 @@ def set_traffic_to_deployment(ml_client: MLClient, endpoint_name: str, deploymen
 
 def main() -> None:
     args = parse_args()
+
+    print(f"Target Endpoint: {args.endpoint_name} | Target Deployment: {args.deployment_name}")
 
     print("Connecting to Azure Machine Learning workspace...")
     ml_client = get_ml_client(
