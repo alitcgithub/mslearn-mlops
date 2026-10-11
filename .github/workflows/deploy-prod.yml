@@ -61,7 +61,7 @@ jobs:
             --resource-group "${{ steps.detect.outputs.resource_group }}" \
             --workspace "${{ steps.detect.outputs.workspace }}" \
             --endpoint-name "${{ steps.detect.outputs.endpoint_name }}" \
-            --deployment-name "green"
+            --deployment-name "blue"
 
       - name: Comment deployment result on pull request
         if: github.event.issue.number != null
@@ -75,7 +75,7 @@ jobs:
               'The diabetes model has been deployed (or updated) on the managed online endpoint.',
               '',
               'Endpoint name: `${{ steps.detect.outputs.endpoint_name }}`',
-              'Deployment name: `green`',
+              'Deployment name: `blue`',
               'Data collection for model inputs and outputs is enabled on this deployment.',
               '',
               'Check the workflow run logs for the endpoint scoring URI and verify the endpoint in Azure Machine Learning studio.',
