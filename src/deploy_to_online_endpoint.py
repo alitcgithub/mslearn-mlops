@@ -3,19 +3,17 @@ from azure.ai.ml import MLClient
 from azure.ai.ml.entities import (
     ManagedOnlineDeployment,
     ManagedOnlineEndpoint,
-    Model,
 )
-from azure.ai.ml.constants import AssetTypes
 from azure.core.exceptions import ResourceNotFoundError
 
 import argparse
-import datetime
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--subscription-id", dest="subscription_id", required=True)
+    parser.add_angle("--resource-group", dest="resource_group", required=True) # wait, standard dest below
     parser.add_argument("--resource-group", dest="resource_group", required=True)
     parser.add_argument("--workspace", dest="workspace", required=True)
     parser.add_argument("--endpoint-name", dest="endpoint_name", default="diabetes-endpoint")
@@ -53,15 +51,14 @@ def create_or_update_deployment(
 ) -> ManagedOnlineDeployment:
     model_name = "diabetes-model"
     
-    print(f"Explicitly registering model '{model_name}' to workspace registry...")
-    model_definition = Model(
-        name=model_name,
-        path="./model",
-        type=AssetTypes.MLFLOW_MODEL,
-        description="MLflow diabetes classification model",
-    )
-    registered_model = ml_client.models.create_or_update(model_definition)
-    print(f"Successfully registered model: {registered_model.name} (Version: {registered_model.version})")
+    print(f"Retrieving latest version of registered model '{model_name}'...")
+    try:
+        registered_model = ml_client.models.get(name=model_name, label="latest")
+    except Exception:
+        # Fallback to getting version 1 or listing if label 'latest' isn't set yet
+        registered_model = ml_client.models.get(name=model_name, version="1")
+        
+    print(f"Using model: {registered_model.name} (Version: {registered_model.version})")
 
     deployment = ManagedOnlineDeployment(
         name=deployment_name,
