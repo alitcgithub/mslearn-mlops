@@ -26,6 +26,21 @@ def main():
     )
 
     print(f"Ensuring online endpoint '{args.endpoint_name}' exists...")
+    
+    # Check if the endpoint already exists and handle failed states
+    try:
+        existing_endpoint = ml_client.online_endpoints.get(args.endpoint_name)
+        state = getattr(existing_endpoint, "provisioning_state", "").lower()
+        print(f"Existing endpoint found with state: {state}")
+        
+        if state in ["failed", "deleting"]:
+            print("Endpoint is in a failed or unstable state. Deleting it before recreating...")
+            ml_client.online_endpoints.begin_delete(args.endpoint_name).result()
+            print("Old endpoint deleted successfully.")
+    except Exception:
+        # Endpoint doesn't exist yet, which is totally fine
+        pass
+
     endpoint = ManagedOnlineEndpoint(
         name=args.endpoint_name,
         description="Online endpoint for diabetes model deployment",
