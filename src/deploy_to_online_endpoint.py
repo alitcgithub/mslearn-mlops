@@ -1,8 +1,6 @@
 from azure.identity import DefaultAzureCredential
 from azure.ai.ml import MLClient
 from azure.ai.ml.entities import (
-    DataCollector,
-    DeploymentCollection,
     ManagedOnlineDeployment,
     ManagedOnlineEndpoint,
     Model,
@@ -12,15 +10,6 @@ from azure.core.exceptions import ResourceNotFoundError
 
 import argparse
 import datetime
-
-
-def get_data_collector() -> DataCollector:
-    return DataCollector(
-        collections={
-            "model_inputs": DeploymentCollection(enabled="true"),
-            "model_outputs": DeploymentCollection(enabled="true"),
-        }
-    )
 
 
 def parse_args():
@@ -80,7 +69,6 @@ def create_or_update_deployment(
         model=registered_model,
         instance_type="Standard_D2as_v4",
         instance_count=1,
-        data_collector=get_data_collector(),
     )
 
     return ml_client.online_deployments.begin_create_or_update(deployment).result()
