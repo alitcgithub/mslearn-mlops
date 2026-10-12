@@ -28,7 +28,8 @@ def main(args):
 
     # --- SAVE AND LOG MODEL ARTIFACTS ---
     # 1. Log model directly to MLflow
-    mlflow.sklearn.log_model(model, "model")
+    mlflow.sklearn.log_model(model, "model", extra_pip_requirements=["azureml-ai-monitoring"])
+    # mlflow.sklearn.log_model(model, "model")
 
     # 2. Save physical model.pkl to the 'outputs' directory
     os.makedirs('outputs', exist_ok=True)
