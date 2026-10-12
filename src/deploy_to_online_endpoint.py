@@ -81,7 +81,7 @@ def create_or_update_deployment(
         name=deployment_name,
         endpoint_name=endpoint_name,
         model=registered_model,
-        instance_type="Standard_F2s_v2",
+        instance_type="Standard_D2ds_v5",
         instance_count=1,
     )
 
