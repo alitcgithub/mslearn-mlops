@@ -29,7 +29,8 @@ def main(args):
     # --- SAVE AND LOG MODEL ARTIFACTS ---
     # 1. Log model directly to MLflow
     #mlflow.sklearn.log_model(model, "model", extra_pip_requirements=["azureml-ai-monitoring"])
-    mlflow.sklearn.log_model(model, "model", extra_pip_requirements=["azureml-ai-monitoring", "azureml-inference-server-http==1.4.0"])
+    #mlflow.sklearn.log_model(model, "model", extra_pip_requirements=["azureml-ai-monitoring", "azureml-inference-server-http==1.4.0"])
+    mlflow.sklearn.log_model(model, "model", extra_pip_requirements=["azureml-ai-monitoring", "azureml-inference-server-http==1.3.4"])
     # mlflow.sklearn.log_model(model, "model")
 
     # 2. Save physical model.pkl to the 'outputs' directory
